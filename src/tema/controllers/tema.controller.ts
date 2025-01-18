@@ -1,4 +1,11 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { TemaService } from '../services/tema.service';
 import { Tema } from '../entities/tema.entity';
 
@@ -10,5 +17,11 @@ export class TemaController {
   @HttpCode(HttpStatus.OK)
   findAll(): Promise<Tema[]> {
     return this.temaRepository.findAll();
+  }
+
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Tema> {
+    return this.temaRepository.findById(id);
   }
 }
