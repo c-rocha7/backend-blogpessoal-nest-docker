@@ -24,4 +24,10 @@ export class TemaController {
   findById(@Param('id', ParseIntPipe) id: number): Promise<Tema> {
     return this.temaRepository.findById(id);
   }
+
+  @Get('/descricao/:descricao')
+  @HttpCode(HttpStatus.OK)
+  findByDescricao(@Param('descricao') descricao: string): Promise<Tema[]> {
+    return this.temaRepository.findByDescricao(descricao);
+  }
 }

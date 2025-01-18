@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tema } from '../entities/tema.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 @Injectable()
 export class TemaService {
@@ -25,5 +25,13 @@ export class TemaService {
       throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
 
     return tema;
+  }
+
+  async findByDescricao(descricao: string): Promise<Tema[]> {
+    return await this.temaRepository.find({
+      where: {
+        descricao: ILike(`%${descricao}%`),
+      },
+    });
   }
 }
