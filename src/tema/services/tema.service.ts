@@ -34,4 +34,8 @@ export class TemaService {
       },
     });
   }
+
+  async create(tema: Tema): Promise<Tema> {
+    return await this.temaRepository.save(tema);
+  }
 }
