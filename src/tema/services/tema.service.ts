@@ -38,4 +38,10 @@ export class TemaService {
   async create(tema: Tema): Promise<Tema> {
     return await this.temaRepository.save(tema);
   }
+
+  async update(tema: Tema): Promise<Tema> {
+    await this.findById(tema.id);
+
+    return this.temaRepository.save(tema);
+  }
 }
