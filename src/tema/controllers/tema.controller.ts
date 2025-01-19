@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -44,5 +45,11 @@ export class TemaController {
   @HttpCode(HttpStatus.OK)
   update(@Body() tema: Tema): Promise<Tema> {
     return this.temaRepository.update(tema);
+  }
+
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.temaRepository.delete(id);
   }
 }
