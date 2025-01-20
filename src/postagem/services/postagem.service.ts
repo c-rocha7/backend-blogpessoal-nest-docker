@@ -16,6 +16,7 @@ export class PostagemService {
     return await this.postagemRepository.find({
       relations: {
         tema: true,
+        usuario: true,
       },
     });
   }
@@ -27,6 +28,7 @@ export class PostagemService {
       },
       relations: {
         tema: true,
+        usuario: true,
       },
     });
 
@@ -43,6 +45,7 @@ export class PostagemService {
       },
       relations: {
         tema: true,
+        usuario: true,
       },
     });
   }
@@ -54,6 +57,9 @@ export class PostagemService {
   }
 
   async update(postagem: Postagem): Promise<Postagem> {
+    if (!postagem.id || postagem.id < 0)
+      throw new HttpException('Postagem inválida!', HttpStatus.BAD_REQUEST);
+
     await this.findById(postagem.id);
 
     await this.temaService.findById(postagem.tema.id);
