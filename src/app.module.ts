@@ -13,7 +13,7 @@ import { TemaModule } from './tema/tema.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      timezone: process.env.TZ,
+      timezone: '-03:00',
       host: process.env.DATABASE_HOST,
       port: parseInt(process.env.DATABASE_PORT, 10),
       username: process.env.DATABASE_USER,
