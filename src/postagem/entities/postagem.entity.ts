@@ -33,13 +33,13 @@ export class Postagem {
   @UpdateDateColumn()
   data: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Tema })
   @ManyToOne(() => Tema, (tema) => tema.postagem, {
     onDelete: 'CASCADE',
   })
   tema: Tema;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Usuario })
   @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {
     onDelete: 'CASCADE',
   })
