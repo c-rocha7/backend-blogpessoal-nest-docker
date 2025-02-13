@@ -1,20 +1,7 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "${PORT_EXPORT_NEST}:${PORT}"
-    volumes:
-      - .:/usr/src/app
-      - ./node_modules:/usr/src/app/node_modules
-    env_file:
-      - .env
-    depends_on:
-      - mysql
-
-  mysql:
+  db:
     image: mysql:8.0
+    container_name: mysql_db
     ports:
       - "${PORT_EXPORT_MYSQL}:3306"
     environment:
@@ -24,6 +11,30 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+      
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_backend
+    ports:
+      - "${PORT_EXPORT_NEST}:${PORT}"
+    volumes:
+      - .:/usr/src/app
+      - ./node_modules:/usr/src/app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
 
 volumes:
   mysql_data:
