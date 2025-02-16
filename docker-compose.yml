@@ -13,7 +13,12 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - app-network
-      
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root_password}"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
   backend:
     build:
       context: .
@@ -24,10 +29,15 @@ services:
     volumes:
       - .:/usr/src/app
       - ./node_modules:/usr/src/app/node_modules
-    env_file:
-      - .env
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST:-db}
+      - DATABASE_PORT=${DATABASE_PORT:-3306}
+      - DATABASE_USER=${DATABASE_USER:-app_user}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-app_password}
+      - DATABASE_NAME=${DATABASE_NAME:-db_app}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
 
