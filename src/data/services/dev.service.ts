@@ -10,11 +10,11 @@ export class DevService implements TypeOrmOptionsFactory {
     return {
       type: 'mysql',
       timezone: '-03:00',
-      host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT, 10),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
+      host: process.env.DATABASE_HOST || 'db',
+      port: parseInt(process.env.DATABASE_PORT || '3306', 10),
+      username: process.env.DATABASE_USER || 'app_user',
+      password: process.env.DATABASE_PASSWORD || 'app_password}',
+      database: process.env.DATABASE_NAME || 'db_app',
       entities: [Postagem, Tema, Usuario],
       synchronize: true,
     };
