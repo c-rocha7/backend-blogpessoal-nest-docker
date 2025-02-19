@@ -1,7 +1,7 @@
 services:
   db:
     image: mysql:8.0
-    container_name: mysql_db
+    container_name: mysql_blogpessoal
     ports:
       - "${PORT_EXPORT_MYSQL:-3306}:${PORT_DEFAULT_MYSQL:-3306}"
     environment:
@@ -12,7 +12,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - app-network
+      - network-blogpessoal
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root_password}"]
       interval: 5s
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nestjs_backend
+    container_name: backend_blogpessoal
     ports:
       - "${PORT_EXPORT_NEST:-3000}:${PORT_DEFAULT_NEST:-3000}"
     volumes:
@@ -39,11 +39,11 @@ services:
       db:
         condition: service_healthy
     networks:
-      - app-network
+      - network-blogpessoal
 
 networks:
-  app-network:
-    name: app-network
+  network-blogpessoal:
+    name: network-blogpessoal
     driver: bridge
 
 volumes:
